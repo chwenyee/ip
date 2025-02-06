@@ -1,10 +1,13 @@
 public class Task {
+
     protected String description;
     protected boolean isDone;
+    protected static int taskCount = 0;
 
     public Task(String description) {
         this.description = description;
         this.isDone = false;
+        taskCount += 1;
     }
 
     public String getStatusIcon() {
@@ -19,6 +22,10 @@ public class Task {
         isDone = false;
     }
 
+    @Override
+    public String toString() {
+        return ("[" + this.getStatusIcon()+ "] " + description);
+    }
 }
 
 
