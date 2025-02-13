@@ -4,20 +4,20 @@ import java.util.Scanner;
 public class Luke {
     private static final String DIVIDER = "——————————————————————————————————————————————————————————————————";
 
-    public static void greeting () {
+    public static void greeting() {
         System.out.println(DIVIDER);
-        System.out.println("Hello! I'm Luke");
+        System.out.println("Hi! I'm Luke a.k.a your customized chatbot.");
         System.out.println("What can I do for you?");
         System.out.println(DIVIDER);
     }
 
-    public static void bye () {
+    public static void bye() {
         System.out.println(DIVIDER);
-        System.out.println("Bye. Hope to see you again soon!");
+        System.out.println("It's my pleasure to help you. Hope to see you again soon! :')");
         System.out.println(DIVIDER);
     }
 
-    public static void markTaskAsDone (Task[] tasks, int taskIndex) {
+    private static void markTaskAsDone(Task[] tasks, int taskIndex) {
         tasks[taskIndex].markAsDone();
         System.out.println(DIVIDER);
         System.out.println("Nice! I've marked this task as done:");
@@ -25,7 +25,7 @@ public class Luke {
         System.out.println(DIVIDER);
     }
 
-    public static void markTaskAsNotDone (Task[] tasks, int taskIndex) {
+    private static void markTaskAsNotDone(Task[] tasks, int taskIndex) {
         tasks[taskIndex].markAsNotDone();
         System.out.println(DIVIDER);
         System.out.println("Nice! I've marked this task as not done yet:");
@@ -33,7 +33,7 @@ public class Luke {
         System.out.println(DIVIDER);
     }
 
-    public static String filterInput (String input, String keyword, String filterType) {
+    private static String filterInput(String input, String keyword, String filterType) {
         String[] words = input.split(" ");
         int filterIndex = -1;
         int indexBetweenFromTo = -1;
@@ -41,7 +41,7 @@ public class Luke {
         // To find the index of the keyword
         for (int i = 0; i < words.length; i++) {
             if (words[i].contains(keyword)) {
-                filterIndex = i + 1 ;
+                filterIndex = i + 1;
                 break;
             }
         }
@@ -56,19 +56,19 @@ public class Luke {
             }
         }
 
-        if (filterType.equals("taskDescription") ) {
+        if (filterType.equals("taskDescription")) {
             return String.join(" ", Arrays.copyOfRange(words, 1, filterIndex - 1));
-        } else if (filterType.equals("eventStartDate") ) {
+        } else if (filterType.equals("eventStartDate")) {
             return String.join(" ", Arrays.copyOfRange(words, filterIndex, indexBetweenFromTo));
         } else {
             return String.join(" ", Arrays.copyOfRange(words, filterIndex, words.length));
         }
     }
 
-    public static void printTaskList (Task[] tasks) {
+    private static void printTaskList(Task[] tasks) {
         System.out.println(DIVIDER);
         if (Task.taskCount == 0) {
-            System.out.println("You don't have any tasks. Time to add one now!");
+            System.out.println("You don't have any tasks yet. Time to add one now!");
         } else {
             System.out.println("Here are the tasks in your list:");
             for (int i = 0; i < Task.taskCount; i += 1) {
@@ -78,14 +78,98 @@ public class Luke {
         System.out.println(DIVIDER);
     }
 
-    public static void messageAfterAddingTask (Task[] tasks) {
+    private static void messageAfterAddingTask(Task[] tasks) {
         System.out.println(DIVIDER);
-        System.out.println("Got it. I've added this task: ");
+        System.out.println("Yay! I've added this task for you: ");
         // -1 because the taskCount has incremented after adding a new task
         System.out.println("  " + tasks[Task.taskCount - 1].toString());
-        System.out.println("Now you have " +  Task.taskCount + " tasks in the list.");
+        System.out.println("Now you have " + Task.taskCount + " tasks in the list.");
         System.out.println(DIVIDER);
     }
+
+    private static void processTasks(String input, Task[] tasks) throws IndexOutOfBoundsException, TaskLimitExceededException,
+            EmptyTaskDescriptionException, InvalidCommandException {
+
+        if (input.equals("list")) {
+            printTaskList(tasks);
+
+        } else if (input.startsWith("mark")) {
+            // -1 because the first task starts with index 0
+            int taskIndex = Integer.parseInt(input.substring(5).trim()) - 1;
+
+            if (taskIndex < 0 || taskIndex > Task.taskCount) {
+                throw new IndexOutOfBoundsException();
+            }
+
+            markTaskAsDone(tasks, taskIndex);
+
+        } else if (input.startsWith("unmark")) {
+            int taskIndex = Integer.parseInt(input.substring(6).trim()) - 1;
+
+            if (taskIndex < 0 || taskIndex > Task.taskCount) {
+                throw new IndexOutOfBoundsException();
+            }
+
+            markTaskAsNotDone(tasks, taskIndex);
+
+        } else if (input.startsWith("deadline")) {
+            if (Task.taskCount >= 100) { // Check if max limit is reached
+                throw new TaskLimitExceededException();
+            }
+
+            if (input.trim().equals("deadline")) {
+                throw new EmptyTaskDescriptionException();
+            }
+
+            String taskDescription = filterInput(input, "/by", "taskDescription");
+            String deadline = filterInput(input, "/by", "deadline");
+
+            if (taskDescription.isEmpty() || deadline.isEmpty()) {
+                throw new EmptyTaskDescriptionException();
+            }
+
+            tasks[Task.taskCount] = new Deadline(taskDescription, deadline);
+            messageAfterAddingTask(tasks);
+
+        } else if (input.startsWith("event")) {
+            if (Task.taskCount >= 100) { // Check if max limit is reached
+                throw new TaskLimitExceededException();
+            }
+
+            if (input.trim().equals("event")) {
+                throw new EmptyTaskDescriptionException();
+            }
+
+            String taskDescription = filterInput(input, "/from", "taskDescription");
+            String startDate = filterInput(input, "/from", "eventStartDate");
+            String endDate = filterInput(input, "/to", "eventEndDate");
+
+            if (taskDescription.isEmpty() || startDate.isEmpty() || endDate.isEmpty()) {
+                throw new EmptyTaskDescriptionException();
+            }
+
+            tasks[Task.taskCount] = new Event(taskDescription, startDate, endDate);
+            messageAfterAddingTask(tasks);
+
+        } else if (input.startsWith("todo")) {
+            if (Task.taskCount >= 100) { // Check if max limit is reached
+                throw new TaskLimitExceededException();
+            }
+
+            String todoDescription = input.substring(4).trim();
+
+            if (todoDescription.isEmpty()) {
+                throw new EmptyTaskDescriptionException();
+            }
+
+            tasks[Task.taskCount] = new Todo(todoDescription);
+            messageAfterAddingTask(tasks);
+
+        } else {
+            throw new InvalidCommandException();
+        }
+    }
+
 
     public static void main(String[] args) {
 
@@ -97,37 +181,25 @@ public class Luke {
         input = in.nextLine();
 
         while (!input.equals("bye")) {
-            if (input.equals("list")) {
-                printTaskList(tasks);
-            } else if (input.startsWith("mark ")) {
-                // -1 because the first task starts with index 0
-                int taskIndex = Integer.parseInt(input.substring(5).trim()) - 1;
-                if (taskIndex >= 0 && taskIndex < Task.taskCount) {
-                    markTaskAsDone(tasks, taskIndex);
-                }
-            } else if (input.startsWith("unmark ")) {
-                int taskIndex = Integer.parseInt(input.substring(7).trim()) - 1;
-                if (taskIndex >= 0 && taskIndex < Task.taskCount) {
-                    markTaskAsNotDone(tasks, taskIndex);
-                }
-            } else if (input.startsWith("deadline ")) {
-                String taskDescription = filterInput(input, "/by", "taskDescription");
-                String deadline = filterInput(input, "/by", "deadline");
-                tasks[Task.taskCount] = new Deadline(taskDescription, deadline);
-                messageAfterAddingTask(tasks);
-            }else if (input.startsWith("event ")) {
-                String taskDescription = filterInput(input, "/from", "taskDescription");
-                String startDate = filterInput(input, "/from", "eventStartDate");
-                String endDate = filterInput(input, "/to", "eventEndDate");
-                tasks[Task.taskCount] = new Event(taskDescription, startDate, endDate);
-                messageAfterAddingTask(tasks);
-            } else {
-                String todoDescription = input.substring(5).trim();
-                tasks[Task.taskCount] = new Todo(todoDescription);
-                messageAfterAddingTask(tasks);
+            try {
+                processTasks(input, tasks);
+            } catch (EmptyTaskDescriptionException | InvalidCommandException e) {
+                System.out.println(e.getMessage());
+                System.out.println(DIVIDER);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Whoops, I think your description is not complete.");
+                System.out.println("It could also be your wrong input format. Please try again.");
+                System.out.println(DIVIDER);
+            } catch (IndexOutOfBoundsException | NullPointerException e) {
+                System.out.println("Hmm... Why are you trying to mark/unmark a nonexistent task?");
+                System.out.println("I think you either don't have any tasks or mark the wrong one.");
+                System.out.println(DIVIDER);
+            } catch (TaskLimitExceededException e) {
+                System.out.println(e.getMessage());
             }
             input = in.nextLine();
         }
         bye();
     }
+
 }
