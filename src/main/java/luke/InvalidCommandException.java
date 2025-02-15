@@ -1,3 +1,5 @@
+package luke;
+
 class InvalidCommandException extends LukeException {
 
     public InvalidCommandException() {

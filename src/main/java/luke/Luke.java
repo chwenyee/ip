@@ -1,3 +1,10 @@
+package luke;
+
+import luke.task.Deadline;
+import luke.task.Event;
+import luke.task.Task;
+import luke.task.Todo;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
