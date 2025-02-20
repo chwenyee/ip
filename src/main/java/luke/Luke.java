@@ -5,6 +5,7 @@ import luke.task.Event;
 import luke.task.Task;
 import luke.task.Todo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -24,19 +25,19 @@ public class Luke {
         System.out.println(DIVIDER);
     }
 
-    private static void markTaskAsDone(Task[] tasks, int taskIndex) {
-        tasks[taskIndex].markAsDone();
+    private static void markTaskAsDone(ArrayList<Task> tasks, int taskIndex) {
+        tasks.get(taskIndex).markAsDone();
         System.out.println(DIVIDER);
         System.out.println("Nice! I've marked this task as done:");
-        System.out.println(tasks[taskIndex].toString());
+        System.out.println(tasks.get(taskIndex).toString());
         System.out.println(DIVIDER);
     }
 
-    private static void markTaskAsNotDone(Task[] tasks, int taskIndex) {
-        tasks[taskIndex].markAsNotDone();
+    private static void markTaskAsNotDone(ArrayList<Task> tasks, int taskIndex) {
+        tasks.get(taskIndex).markAsNotDone();
         System.out.println(DIVIDER);
         System.out.println("Nice! I've marked this task as not done yet:");
-        System.out.println(tasks[taskIndex].toString());
+        System.out.println(tasks.get(taskIndex).toString());
         System.out.println(DIVIDER);
     }
 
@@ -72,29 +73,29 @@ public class Luke {
         }
     }
 
-    private static void printTaskList(Task[] tasks) {
+    private static void printTaskList(ArrayList<Task> tasks) {
         System.out.println(DIVIDER);
         if (Task.getTaskCount() == 0) {
             System.out.println("You don't have any tasks yet. Time to add one now!");
         } else {
             System.out.println("Here are the tasks in your list:");
             for (int i = 0; i < Task.getTaskCount(); i += 1) {
-                System.out.println((i + 1) + "." + tasks[i].toString());
+                System.out.println((i + 1) + "." + tasks.get(i).toString());
             }
         }
         System.out.println(DIVIDER);
     }
 
-    private static void messageAfterAddingTask(Task[] tasks) {
+    private static void messageAfterAddingTask(ArrayList<Task> tasks) {
         System.out.println(DIVIDER);
         System.out.println("Yay! I've added this task for you: ");
         // -1 because the taskCount has incremented after adding a new task
-        System.out.println("  " + tasks[Task.getTaskCount() - 1].toString());
+        System.out.println("  " + tasks.get(Task.getTaskCount() - 1).toString());
         System.out.println("Now you have " + Task.getTaskCount() + " tasks in the list.");
         System.out.println(DIVIDER);
     }
 
-    private static void processTasks(String input, Task[] tasks) throws IndexOutOfBoundsException, TaskLimitExceededException,
+    private static void processTasks(String input, ArrayList<Task> tasks) throws IndexOutOfBoundsException, TaskLimitExceededException,
             EmptyTaskDescriptionException, InvalidCommandException {
 
         if (input.equals("list")) {
@@ -135,7 +136,7 @@ public class Luke {
                 throw new EmptyTaskDescriptionException();
             }
 
-            tasks[Task.getTaskCount()] = new Deadline(taskDescription, deadline);
+            tasks.add(new Deadline(taskDescription, deadline));
             messageAfterAddingTask(tasks);
 
         } else if (input.startsWith("event")) {
@@ -155,7 +156,7 @@ public class Luke {
                 throw new EmptyTaskDescriptionException();
             }
 
-            tasks[Task.getTaskCount()] = new Event(taskDescription, startDate, endDate);
+            tasks.add(new Event(taskDescription, startDate, endDate));
             messageAfterAddingTask(tasks);
 
         } else if (input.startsWith("todo")) {
@@ -169,7 +170,7 @@ public class Luke {
                 throw new EmptyTaskDescriptionException();
             }
 
-            tasks[Task.getTaskCount()] = new Todo(todoDescription);
+            tasks.add(new Todo(todoDescription));
             messageAfterAddingTask(tasks);
 
         } else {
@@ -177,12 +178,11 @@ public class Luke {
         }
     }
 
-
     public static void main(String[] args) {
 
         greeting();
 
-        Task[] tasks = new Task[100];
+        ArrayList<Task> tasks = new ArrayList<>();
         String input;
         Scanner in = new Scanner(System.in);
         input = in.nextLine();
