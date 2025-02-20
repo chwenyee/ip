@@ -24,6 +24,10 @@ public class Task {
         isDone = false;
     }
 
+    public static int getTaskCount() {
+        return taskCount;
+    }
+
     @Override
     public String toString() {
         return ("[" + this.getStatusIcon()+ "] " + description);
