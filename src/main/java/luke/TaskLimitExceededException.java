@@ -1,3 +1,5 @@
+package luke;
+
 class TaskLimitExceededException extends LukeException {
 
     public TaskLimitExceededException() {

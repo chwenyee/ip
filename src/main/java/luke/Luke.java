@@ -1,3 +1,10 @@
+package luke;
+
+import luke.task.Deadline;
+import luke.task.Event;
+import luke.task.Task;
+import luke.task.Todo;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -67,11 +74,11 @@ public class Luke {
 
     private static void printTaskList(Task[] tasks) {
         System.out.println(DIVIDER);
-        if (Task.taskCount == 0) {
+        if (Task.getTaskCount() == 0) {
             System.out.println("You don't have any tasks yet. Time to add one now!");
         } else {
             System.out.println("Here are the tasks in your list:");
-            for (int i = 0; i < Task.taskCount; i += 1) {
+            for (int i = 0; i < Task.getTaskCount(); i += 1) {
                 System.out.println((i + 1) + "." + tasks[i].toString());
             }
         }
@@ -82,8 +89,8 @@ public class Luke {
         System.out.println(DIVIDER);
         System.out.println("Yay! I've added this task for you: ");
         // -1 because the taskCount has incremented after adding a new task
-        System.out.println("  " + tasks[Task.taskCount - 1].toString());
-        System.out.println("Now you have " + Task.taskCount + " tasks in the list.");
+        System.out.println("  " + tasks[Task.getTaskCount() - 1].toString());
+        System.out.println("Now you have " + Task.getTaskCount() + " tasks in the list.");
         System.out.println(DIVIDER);
     }
 
@@ -97,7 +104,7 @@ public class Luke {
             // -1 because the first task starts with index 0
             int taskIndex = Integer.parseInt(input.substring(5).trim()) - 1;
 
-            if (taskIndex < 0 || taskIndex > Task.taskCount) {
+            if (taskIndex < 0 || taskIndex > Task.getTaskCount()) {
                 throw new IndexOutOfBoundsException();
             }
 
@@ -106,14 +113,14 @@ public class Luke {
         } else if (input.startsWith("unmark")) {
             int taskIndex = Integer.parseInt(input.substring(6).trim()) - 1;
 
-            if (taskIndex < 0 || taskIndex > Task.taskCount) {
+            if (taskIndex < 0 || taskIndex > Task.getTaskCount()) {
                 throw new IndexOutOfBoundsException();
             }
 
             markTaskAsNotDone(tasks, taskIndex);
 
         } else if (input.startsWith("deadline")) {
-            if (Task.taskCount >= 100) { // Check if max limit is reached
+            if (Task.getTaskCount() >= 100) { // Check if max limit is reached
                 throw new TaskLimitExceededException();
             }
 
@@ -128,11 +135,11 @@ public class Luke {
                 throw new EmptyTaskDescriptionException();
             }
 
-            tasks[Task.taskCount] = new Deadline(taskDescription, deadline);
+            tasks[Task.getTaskCount()] = new Deadline(taskDescription, deadline);
             messageAfterAddingTask(tasks);
 
         } else if (input.startsWith("event")) {
-            if (Task.taskCount >= 100) { // Check if max limit is reached
+            if (Task.getTaskCount() >= 100) { // Check if max limit is reached
                 throw new TaskLimitExceededException();
             }
 
@@ -148,11 +155,11 @@ public class Luke {
                 throw new EmptyTaskDescriptionException();
             }
 
-            tasks[Task.taskCount] = new Event(taskDescription, startDate, endDate);
+            tasks[Task.getTaskCount()] = new Event(taskDescription, startDate, endDate);
             messageAfterAddingTask(tasks);
 
         } else if (input.startsWith("todo")) {
-            if (Task.taskCount >= 100) { // Check if max limit is reached
+            if (Task.getTaskCount() >= 100) { // Check if max limit is reached
                 throw new TaskLimitExceededException();
             }
 
@@ -162,7 +169,7 @@ public class Luke {
                 throw new EmptyTaskDescriptionException();
             }
 
-            tasks[Task.taskCount] = new Todo(todoDescription);
+            tasks[Task.getTaskCount()] = new Todo(todoDescription);
             messageAfterAddingTask(tasks);
 
         } else {

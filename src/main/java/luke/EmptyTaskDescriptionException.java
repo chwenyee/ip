@@ -1,3 +1,5 @@
+package luke;
+
 class EmptyTaskDescriptionException extends LukeException {
 
     public EmptyTaskDescriptionException() {
