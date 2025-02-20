@@ -12,14 +12,14 @@ import java.util.Scanner;
 public class Luke {
     private static final String DIVIDER = "——————————————————————————————————————————————————————————————————";
 
-    public static void greeting() {
+    private static void greeting() {
         System.out.println(DIVIDER);
         System.out.println("Hi! I'm Luke a.k.a your customized chatbot.");
         System.out.println("What can I do for you?");
         System.out.println(DIVIDER);
     }
 
-    public static void bye() {
+    private static void bye() {
         System.out.println(DIVIDER);
         System.out.println("It's my pleasure to help you. Hope to see you again soon! :')");
         System.out.println(DIVIDER);
@@ -95,6 +95,15 @@ public class Luke {
         System.out.println(DIVIDER);
     }
 
+    private static void messageAfterRemovingTask(Task removedTask) {
+        System.out.println(DIVIDER);
+        System.out.println("There you go. I've removed this task for you:");
+        System.out.println("  " + removedTask.toString());
+        Task.setTaskCount(Task.getTaskCount() - 1);
+        System.out.println("Now you have " + Task.getTaskCount() + " tasks in the list.");
+        System.out.println(DIVIDER);
+    }
+
     private static void processTasks(String input, ArrayList<Task> tasks) throws IndexOutOfBoundsException, TaskLimitExceededException,
             EmptyTaskDescriptionException, InvalidCommandException {
 
@@ -103,7 +112,7 @@ public class Luke {
 
         } else if (input.startsWith("mark")) {
             // -1 because the first task starts with index 0
-            int taskIndex = Integer.parseInt(input.substring(5).trim()) - 1;
+            int taskIndex = Integer.parseInt(input.substring(4).trim()) - 1;
 
             if (taskIndex < 0 || taskIndex > Task.getTaskCount()) {
                 throw new IndexOutOfBoundsException();
@@ -119,6 +128,16 @@ public class Luke {
             }
 
             markTaskAsNotDone(tasks, taskIndex);
+
+        } else if (input.startsWith("remove")) {
+            int taskIndex = Integer.parseInt(input.substring(6).trim()) - 1;
+
+            if (taskIndex < 0 || taskIndex > Task.getTaskCount()) {
+                throw new IndexOutOfBoundsException();
+            }
+
+            Task removed = tasks.remove(taskIndex);
+            messageAfterRemovingTask(removed);
 
         } else if (input.startsWith("deadline")) {
             if (Task.getTaskCount() >= 100) { // Check if max limit is reached
@@ -198,8 +217,8 @@ public class Luke {
                 System.out.println("It could also be your wrong input format. Please try again.");
                 System.out.println(DIVIDER);
             } catch (IndexOutOfBoundsException | NullPointerException e) {
-                System.out.println("Hmm... Why are you trying to mark/unmark a nonexistent task?");
-                System.out.println("I think you either don't have any tasks or mark the wrong one.");
+                System.out.println("Hmm... Why are you trying to do something on a nonexistent task?");
+                System.out.println("I think you either don't have any tasks or select the wrong one.");
                 System.out.println(DIVIDER);
             } catch (TaskLimitExceededException e) {
                 System.out.println(e.getMessage());
