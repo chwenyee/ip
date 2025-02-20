@@ -204,8 +204,6 @@ public class Luke {
 
         greeting();
 
-        // To print all existing tasks saved in luke.txt when Luke starts up
-        Storage.printTasksFromFile();
         // To save all existing tasks in the ArrayList tasks
         ArrayList<Task> tasks = Storage.loadTasksFromFile();
 

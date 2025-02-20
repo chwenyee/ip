@@ -28,8 +28,8 @@ public class Storage {
             // Append mode is not set to avoid duplication of data
             FileWriter fw = new FileWriter(FILE_PATH);
             // Read the tasks in the list and write them line by line into luke.txt
-            for (Task task : tasks) {
-                fw.write(task.toFileFormat() + System.lineSeparator());
+            for (Task currentTask : tasks) {
+                fw.write(currentTask.toFileFormat() + System.lineSeparator());
             }
             fw.close();
         } catch (IOException e) {
@@ -43,20 +43,14 @@ public class Storage {
         ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(FILE_PATH);
 
-        if (!file.exists()) {
-            System.out.println("There is no existing file.");
-            System.out.println(DIVIDER);
-            return tasks;
-        }
-
         try {
             Scanner input = new Scanner(file);
             while (input.hasNextLine()) {
                 // create a Scanner using the file as source
                 String line = input.nextLine();
-                Task task = parseTask(line);
-                if (task != null) {
-                    tasks.add(task);
+                Task currentTask = parseTask(line);
+                if (currentTask != null) {
+                    tasks.add(currentTask);
                 }
             }
             input.close();
@@ -64,25 +58,6 @@ public class Storage {
             System.out.println("Error reading your file.");
         }
         return tasks;
-    }
-
-    public static void printTasksFromFile() {
-
-        File file = new File(FILE_PATH);
-        if (!file.exists()) {
-            System.out.println("There is no existing file.");
-            System.out.println(DIVIDER);
-        }
-
-        try {
-            Scanner input = new Scanner(file);
-            while (input.hasNextLine()) {
-                System.out.println(input.nextLine());
-            }
-            input.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found.");
-        }
     }
 
     // Parse a saved task in txt format into a Task object
@@ -104,6 +79,4 @@ public class Storage {
             return null;
         }
     }
-
-
 }
