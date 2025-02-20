@@ -10,7 +10,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Luke {
-    private static final String DIVIDER = "——————————————————————————————————————————————————————————————————";
+
+    public static final String DIVIDER = "——————————————————————————————————————————————————————————————————";
 
     private static void greeting() {
         System.out.println(DIVIDER);
@@ -93,6 +94,7 @@ public class Luke {
         System.out.println("  " + tasks.get(Task.getTaskCount() - 1).toString());
         System.out.println("Now you have " + Task.getTaskCount() + " tasks in the list.");
         System.out.println(DIVIDER);
+
     }
 
     private static void messageAfterRemovingTask(Task removedTask) {
@@ -114,7 +116,7 @@ public class Luke {
             // -1 because the first task starts with index 0
             int taskIndex = Integer.parseInt(input.substring(4).trim()) - 1;
 
-            if (taskIndex < 0 || taskIndex > Task.getTaskCount()) {
+            if (taskIndex < 0 || taskIndex >= Task.getTaskCount()) {
                 throw new IndexOutOfBoundsException();
             }
 
@@ -123,7 +125,7 @@ public class Luke {
         } else if (input.startsWith("unmark")) {
             int taskIndex = Integer.parseInt(input.substring(6).trim()) - 1;
 
-            if (taskIndex < 0 || taskIndex > Task.getTaskCount()) {
+            if (taskIndex < 0 || taskIndex >= Task.getTaskCount()) {
                 throw new IndexOutOfBoundsException();
             }
 
@@ -155,7 +157,7 @@ public class Luke {
                 throw new EmptyTaskDescriptionException();
             }
 
-            tasks.add(new Deadline(taskDescription, deadline));
+            tasks.add(new Deadline(taskDescription, deadline, false));
             messageAfterAddingTask(tasks);
 
         } else if (input.startsWith("event")) {
@@ -175,11 +177,12 @@ public class Luke {
                 throw new EmptyTaskDescriptionException();
             }
 
-            tasks.add(new Event(taskDescription, startDate, endDate));
+            tasks.add(new Event(taskDescription, startDate, endDate, false));
             messageAfterAddingTask(tasks);
 
         } else if (input.startsWith("todo")) {
-            if (Task.getTaskCount() >= 100) { // Check if max limit is reached
+            // Check if max limit is reached
+            if (Task.getTaskCount() >= 100) {
                 throw new TaskLimitExceededException();
             }
 
@@ -189,7 +192,7 @@ public class Luke {
                 throw new EmptyTaskDescriptionException();
             }
 
-            tasks.add(new Todo(todoDescription));
+            tasks.add(new Todo(todoDescription, false));
             messageAfterAddingTask(tasks);
 
         } else {
@@ -201,14 +204,20 @@ public class Luke {
 
         greeting();
 
-        ArrayList<Task> tasks = new ArrayList<>();
-        String input;
+        // To print all existing tasks saved in luke.txt when Luke starts up
+        Storage.printTasksFromFile();
+        // To save all existing tasks in the ArrayList tasks
+        ArrayList<Task> tasks = Storage.loadTasksFromFile();
+
         Scanner in = new Scanner(System.in);
-        input = in.nextLine();
+        String input = in.nextLine();
 
         while (!input.equals("bye")) {
             try {
                 processTasks(input, tasks);
+                // Overwrite luke.txt every time a new task is added
+                // This is done by writing all tasks that are in the list into luke.txt
+                Storage.saveTasksToFile(tasks);
             } catch (EmptyTaskDescriptionException | InvalidCommandException e) {
                 System.out.println(e.getMessage());
                 System.out.println(DIVIDER);
@@ -217,7 +226,7 @@ public class Luke {
                 System.out.println("It could also be your wrong input format. Please try again.");
                 System.out.println(DIVIDER);
             } catch (IndexOutOfBoundsException | NullPointerException e) {
-                System.out.println("Hmm... Why are you trying to do something on a nonexistent task?");
+                System.out.println("Hmm... Why are you trying to do something on a non-existent task?");
                 System.out.println("I think you either don't have any tasks or select the wrong one.");
                 System.out.println(DIVIDER);
             } catch (TaskLimitExceededException e) {
@@ -227,5 +236,4 @@ public class Luke {
         }
         bye();
     }
-
 }
