@@ -28,6 +28,10 @@ public class Task {
         return taskCount;
     }
 
+    public static void setTaskCount(int taskCount) {
+        Task.taskCount = taskCount;
+    }
+
     @Override
     public String toString() {
         return ("[" + this.getStatusIcon()+ "] " + description);
