@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class Luke {
 
-    public static final String DIVIDER = "——————————————————————————————————————————————————————————————————";
+    public static final String DIVIDER = "------------------------------------------------------------------";
 
     private static void greeting() {
         System.out.println(DIVIDER);
