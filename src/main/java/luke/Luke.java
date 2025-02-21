@@ -131,7 +131,7 @@ public class Luke {
 
             markTaskAsNotDone(tasks, taskIndex);
 
-        } else if (input.startsWith("remove")) {
+        } else if (input.startsWith("delete")) {
             int taskIndex = Integer.parseInt(input.substring(6).trim()) - 1;
 
             if (taskIndex < 0 || taskIndex > Task.getTaskCount()) {
@@ -142,7 +142,8 @@ public class Luke {
             messageAfterRemovingTask(removed);
 
         } else if (input.startsWith("deadline")) {
-            if (Task.getTaskCount() >= 100) { // Check if max limit is reached
+            // Check if max limit is reached
+            if (Task.getTaskCount() >= 100) {
                 throw new TaskLimitExceededException();
             }
 
