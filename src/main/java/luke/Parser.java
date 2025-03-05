@@ -55,17 +55,17 @@ public class Parser {
             } catch (NumberFormatException e) {
                 throw new LukeException("Aiyo......The task number must be an integer.");
             }
+        case "find":
+            if (parts.length < 2 || parts[1].isBlank()) {
+                throw new LukeException("Whoops, do you notice that you are finding nothing?");
+            }
+            return new FindCommand(parts[1]);
         case "todo":
             return new AddCommand(parseTodo(parts));
         case "deadline":
             return new AddCommand(parseDeadline(parts));
         case "event":
             return new AddCommand(parseEvent(parts));
-        case "find":
-            if (parts.length < 2 || parts[1].isBlank()) {
-                throw new LukeException("Whoops, do you notice that you are finding nothing?");
-            }
-            return new FindCommand(parts[1]);
         default:
             throw new LukeException("I'm sorry, but I don't know what that means :'(");
         }
