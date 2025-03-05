@@ -35,6 +35,17 @@ public class TaskList {
         tasks.get(index).markAsNotDone();
     }
 
+    public ArrayList<Task> findTask(String keyword) {
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            // Check if the task's description contains the keyword. Case is ignored
+            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
+    }
+
     public ArrayList<Task> getTasks() {
         return tasks;
     }

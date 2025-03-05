@@ -68,6 +68,17 @@ public class Ui {
         }
     }
 
+    public static void showTasksFound(ArrayList<Task> matchingTasks) {
+        if (matchingTasks.isEmpty()) {
+            System.out.println("It looks like there are no tasks with this keyword. Try a different one!");
+        } else {
+            System.out.println("Here are the matching tasks in your list:");
+            for (int i = 0; i < matchingTasks.size(); i += 1) {
+                System.out.println((i + 1) + "." + matchingTasks.get(i).toString());
+            }
+        }
+    }
+
     public void showError(String output) {
         System.out.println(output);
     }

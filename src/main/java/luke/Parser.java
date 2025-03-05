@@ -4,6 +4,7 @@ import luke.command.AddCommand;
 import luke.command.Command;
 import luke.command.DeleteCommand;
 import luke.command.ExitCommand;
+import luke.command.FindCommand;
 import luke.command.ListCommand;
 import luke.command.MarkCommand;
 import luke.command.UnmarkCommand;
@@ -60,6 +61,11 @@ public class Parser {
             return new AddCommand(parseDeadline(parts));
         case "event":
             return new AddCommand(parseEvent(parts));
+        case "find":
+            if (parts.length < 2 || parts[1].isBlank()) {
+                throw new LukeException("Whoops, do you notice that you are finding nothing?");
+            }
+            return new FindCommand(parts[1]);
         default:
             throw new LukeException("I'm sorry, but I don't know what that means :'(");
         }
