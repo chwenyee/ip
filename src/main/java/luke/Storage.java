@@ -50,7 +50,7 @@ public class Storage {
         if (!file.exists()) {
             return tasks;
         }
-        // create a Scanner that uses file as its source
+        // create a Scanner that uses the file as its source
         Scanner input = new Scanner(file);
 
         while (input.hasNextLine()) {
