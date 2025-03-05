@@ -50,11 +50,12 @@ public class Storage {
         if (!file.exists()) {
             return tasks;
         }
+        // create a Scanner that uses file as its source
         Scanner input = new Scanner(file);
 
         while (input.hasNextLine()) {
-            // create a Scanner using the file as source
             String line = input.nextLine();
+            // Parse the input line by line and load them as tasks in Luke's TaskList
             Task currentTask = Parser.parseTaskFromStorage(line);
             tasks.add(currentTask);
         }
