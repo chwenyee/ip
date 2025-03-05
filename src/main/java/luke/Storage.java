@@ -13,20 +13,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static luke.Luke.DIVIDER;
+import static luke.Ui.DIVIDER;
 
 public class Storage {
 
-    private static final String FILE_PATH = "data/luke.txt";
+    private static String filePath;
 
-    public static void saveTasksToFile(ArrayList<Task> tasks) {
+    public Storage(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public void save(ArrayList<Task> tasks) {
 
         try {
-            File file = new File(FILE_PATH);
+            File file = new File(filePath);
             file.getParentFile().mkdirs();
 
             // Append mode is not set to avoid duplication of data
-            FileWriter fw = new FileWriter(FILE_PATH);
+            FileWriter fw = new FileWriter(filePath);
             // Read the tasks in the list and write them line by line into luke.txt
             for (Task currentTask : tasks) {
                 fw.write(currentTask.toFileFormat() + System.lineSeparator());
@@ -38,45 +42,25 @@ public class Storage {
         }
     }
 
-    public static ArrayList<Task> loadTasksFromFile() {
+    public static ArrayList<Task> load() throws FileNotFoundException {
 
         ArrayList<Task> tasks = new ArrayList<>();
-        File file = new File(FILE_PATH);
+        File file = new File(filePath);
 
-        try {
-            Scanner input = new Scanner(file);
-            while (input.hasNextLine()) {
-                // create a Scanner using the file as source
-                String line = input.nextLine();
-                Task currentTask = parseTask(line);
-                if (currentTask != null) {
-                    tasks.add(currentTask);
-                }
-            }
-            input.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Error reading your file.");
+        if (!file.exists()) {
+            return tasks;
         }
+        Scanner input = new Scanner(file);
+
+        while (input.hasNextLine()) {
+            // create a Scanner using the file as source
+            String line = input.nextLine();
+            Task currentTask = Parser.parseTaskFromStorage(line);
+            tasks.add(currentTask);
+        }
+        input.close();
+
         return tasks;
     }
 
-    // Parse a saved task in txt format into a Task object
-    private static Task parseTask(String line) {
-
-        // Splits the input line into parts based on task type format
-        String[] parts = line.split(" \\| ");
-        String taskType = parts[0];
-        boolean isDone = parts[1].equals("1");
-
-        switch (taskType) {
-        case "T":
-            return new Todo(parts[2], isDone);
-        case "D":
-            return new Deadline(parts[2], parts[3], isDone);
-        case "E":
-            return new Event(parts[2], parts[3], parts[4], isDone);
-        default:
-            return null;
-        }
-    }
 }

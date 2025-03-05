@@ -4,12 +4,10 @@ public class Task {
 
     protected String description;
     protected boolean isDone;
-    protected static int taskCount = 0;
 
     public Task(String description, boolean isDone) {
         this.description = description;
         this.isDone = isDone;
-        taskCount += 1;
     }
 
     public String getStatusIcon() {
@@ -22,14 +20,6 @@ public class Task {
 
     public void markAsNotDone() {
         isDone = false;
-    }
-
-    public static int getTaskCount() {
-        return taskCount;
-    }
-
-    public static void setTaskCount(int taskCount) {
-        Task.taskCount = taskCount;
     }
 
     @Override
