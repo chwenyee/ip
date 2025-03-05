@@ -55,6 +55,7 @@ public class Storage {
 
         while (input.hasNextLine()) {
             String line = input.nextLine();
+            // Parse the input line by line and load them as tasks in Luke's TaskList
             Task currentTask = Parser.parseTaskFromStorage(line);
             tasks.add(currentTask);
         }
