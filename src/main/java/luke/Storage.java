@@ -31,7 +31,7 @@ public class Storage {
 
             // Append mode is not set to avoid duplication of data
             FileWriter fw = new FileWriter(filePath);
-            // Read the tasks in the list and write them line by line into luke.txt
+            // Read the tasks in the list and write them line by line into txt file
             for (Task currentTask : tasks) {
                 fw.write(currentTask.toFileFormat() + System.lineSeparator());
             }

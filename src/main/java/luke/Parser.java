@@ -25,40 +25,66 @@ public class Parser {
         case "list":
             return new ListCommand();
         case "mark":
-            return new MarkCommand(Integer.parseInt(parts[1]));
+            if (parts.length < 2 || parts[1].isBlank()) {
+                throw new LukeException("Oops! You forget to specify a task number to mark.");
+            }
+            try {
+                int taskIndex = Integer.parseInt(parts[1]);
+                return new MarkCommand(taskIndex);
+            } catch (NumberFormatException e) {
+                throw new LukeException("You made a mistake~ The task number must be an integer.");
+            }
         case "unmark":
-            return new UnmarkCommand(Integer.parseInt(parts[1]));
+            if (parts.length < 2 || parts[1].isBlank()) {
+                throw new LukeException("Oops! You forget to specify a task number to unmark.");
+            }
+            try {
+                int taskIndex = Integer.parseInt(parts[1]);
+                return new UnmarkCommand(taskIndex);
+            } catch (NumberFormatException e) {
+                throw new LukeException("You made a mistake~ The task number must be an integer.");
+            }
+        case "delete":
+            if (parts.length < 2 || parts[1].isBlank()) {
+                throw new LukeException("Oops! You need to specify a task number to delete.");
+            }
+            try {
+                int taskIndex = Integer.parseInt(parts[1]);
+                return new DeleteCommand(taskIndex);
+            } catch (NumberFormatException e) {
+                throw new LukeException("You made a mistake~ The task number must be an integer.");
+            }
         case "todo":
             return new AddCommand(parseTodo(parts));
         case "deadline":
             return new AddCommand(parseDeadline(parts));
         case "event":
             return new AddCommand(parseEvent(parts));
-        case "delete":
-            return new DeleteCommand(Integer.parseInt(parts[1]));
         default:
-            throw new LukeException("I'm sorry, but I don't know what that means :-(");
+            throw new LukeException("I'm sorry, but I don't know what that means :'(");
         }
     }
 
-    private static Todo parseTodo(String[] parts) {
+    private static Todo parseTodo(String[] parts) throws LukeException {
         if (parts.length < 2) {
-            throw new IllegalArgumentException("Whoops, the description of a todo is empty.");
+            throw new LukeException("Whoops, the description of a todo is empty.");
         }
         return new Todo(parts[1], false);
     }
 
-    private static Deadline parseDeadline(String[] parts) {
+    private static Deadline parseDeadline(String[] parts) throws LukeException {
         if (parts.length < 2 || !parts[1].contains(" /by ")) {
-            throw new IllegalArgumentException("Please follow deadline format: deadline <description> /by <time>");
+            throw new LukeException("Your command format is incorrect!" + System.lineSeparator()
+                    + "Please make sure to follow the format: deadline <description> /by <time>");
         }
         String[] details = parts[1].split(" /by ", 2);
         return new Deadline(details[0], details[1], false);
     }
 
-    private static Event parseEvent(String[] parts) {
+    private static Event parseEvent(String[] parts) throws LukeException {
         if (parts.length < 2 || !parts[1].contains(" /from ") || !parts[1].contains(" /to ")) {
-            throw new IllegalArgumentException("Please follow event format: event <description> /from <start> /to <end>");
+            throw new LukeException("Your command format is incorrect!" + System.lineSeparator()
+                    + "Please make sure to follow the format: event <description> /from <start> /to <end>");
         }
         String[] details = parts[1].split(" /from ", 2);
         String description = details[0];

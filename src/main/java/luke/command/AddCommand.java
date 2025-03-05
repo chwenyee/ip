@@ -1,5 +1,6 @@
 package luke.command;
 
+import luke.LukeException;
 import luke.Storage;
 import luke.TaskList;
 import luke.Ui;
@@ -13,7 +14,7 @@ public class AddCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks, Ui ui, Storage storage) throws LukeException {
         tasks.addTask(task);
         Ui.showTaskAdded(tasks.getTasks());
         storage.save(tasks.getTasks());

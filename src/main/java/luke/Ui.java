@@ -17,7 +17,7 @@ public class Ui {
         return scanner.nextLine();
     }
 
-    public static final String DIVIDER = "------------------------------------------------------------------";
+    public static final String DIVIDER = "-".repeat(100);
 
     public void showLine() {
       System.out.println(DIVIDER);
