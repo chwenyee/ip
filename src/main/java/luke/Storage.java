@@ -50,10 +50,10 @@ public class Storage {
         if (!file.exists()) {
             return tasks;
         }
+        // create a Scanner that uses the file as its source
         Scanner input = new Scanner(file);
 
         while (input.hasNextLine()) {
-            // create a Scanner using the file as source
             String line = input.nextLine();
             Task currentTask = Parser.parseTaskFromStorage(line);
             tasks.add(currentTask);
