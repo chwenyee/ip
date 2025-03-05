@@ -32,7 +32,7 @@ public class Parser {
                 int taskIndex = Integer.parseInt(parts[1]);
                 return new MarkCommand(taskIndex);
             } catch (NumberFormatException e) {
-                throw new LukeException("You made a mistake~ The task number must be an integer.");
+                throw new LukeException("Aiyo......The task number must be an integer.");
             }
         case "unmark":
             if (parts.length < 2 || parts[1].isBlank()) {
@@ -42,7 +42,7 @@ public class Parser {
                 int taskIndex = Integer.parseInt(parts[1]);
                 return new UnmarkCommand(taskIndex);
             } catch (NumberFormatException e) {
-                throw new LukeException("You made a mistake~ The task number must be an integer.");
+                throw new LukeException("Aiyo......The task number must be an integer.");
             }
         case "delete":
             if (parts.length < 2 || parts[1].isBlank()) {
@@ -52,7 +52,7 @@ public class Parser {
                 int taskIndex = Integer.parseInt(parts[1]);
                 return new DeleteCommand(taskIndex);
             } catch (NumberFormatException e) {
-                throw new LukeException("You made a mistake~ The task number must be an integer.");
+                throw new LukeException("Aiyo......The task number must be an integer.");
             }
         case "todo":
             return new AddCommand(parseTodo(parts));
