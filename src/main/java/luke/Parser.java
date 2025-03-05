@@ -108,6 +108,7 @@ public class Parser {
         case "E":
             return new Event(description, parts[3], parts[4], isDone);
         default:
+            // To handle abnormal case such as having a non-desired task type stored in txt file
             throw new IllegalArgumentException("Unknown task type in storage.");
         }
     }
