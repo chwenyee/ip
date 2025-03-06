@@ -6,7 +6,7 @@ import luke.Ui;
 import luke.task.Task;
 
 public class DeleteCommand extends Command {
-    private int index;
+    protected int index;
 
     public DeleteCommand(int index) {
         this.index = index;
@@ -15,7 +15,7 @@ public class DeleteCommand extends Command {
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
         try {
-            Task removedTask = tasks.deleteTask(index - 1);
+            Task removedTask = tasks.deleteTask(index);
             Ui.showTaskDeleted(tasks.getTasks(), removedTask);
             storage.save(tasks.getTasks());
         } catch (IndexOutOfBoundsException e) {

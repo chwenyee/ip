@@ -9,7 +9,7 @@ import luke.task.Task;
 import java.util.ArrayList;
 
 public class FindCommand extends Command {
-    private String keyword;
+    protected String keyword;
 
     public FindCommand(String keyword) {
         this.keyword = keyword;

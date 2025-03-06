@@ -1,8 +1,11 @@
 package luke;
 
+import luke.task.Deadline;
+import luke.task.Event;
 import luke.task.Task;
 
 import java.sql.SQLOutput;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -75,6 +78,17 @@ public class Ui {
             System.out.println("Here are the matching tasks in your list:");
             for (int i = 0; i < matchingTasks.size(); i += 1) {
                 System.out.println((i + 1) + "." + matchingTasks.get(i).toString());
+            }
+        }
+    }
+
+    public static void showTasksFoundByDate(ArrayList<Task> matchingTasks, LocalDate date) {
+        if (matchingTasks.isEmpty()) {
+            System.out.println("No deadlines or events found on this date.");
+        } else {
+            System.out.println("Here are the tasks on " + date + ":");
+            for (int i = 0; i < matchingTasks.size(); i++) {
+                System.out.println((i + 1) + ". " + matchingTasks.get(i));
             }
         }
     }

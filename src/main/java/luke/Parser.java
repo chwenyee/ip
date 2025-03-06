@@ -5,6 +5,7 @@ import luke.command.Command;
 import luke.command.DeleteCommand;
 import luke.command.ExitCommand;
 import luke.command.FindCommand;
+import luke.command.FindDateCommand;
 import luke.command.ListCommand;
 import luke.command.MarkCommand;
 import luke.command.UnmarkCommand;
@@ -29,6 +30,8 @@ public class Parser {
             return parseCommandWithIndex(parts, commandWord);
         case "find":
             return new FindCommand(parseFind(parts));
+        case "findDate":
+            return new FindDateCommand(parseFind(parts));
         case "todo":
             return new AddCommand(parseTodo(parts));
         case "deadline":
@@ -45,7 +48,8 @@ public class Parser {
             throw new LukeException("Oops! You forget to specify a task number to mark.");
         }
         try {
-            int taskIndex = Integer.parseInt(parts[1]);
+            // taskIndex = parsed integer -1 as array starts with 0
+            int taskIndex = Integer.parseInt(parts[1]) - 1;
             switch (commandType) {
             case "mark":
                 return new MarkCommand(taskIndex);
