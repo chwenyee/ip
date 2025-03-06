@@ -9,9 +9,9 @@ public class Deadline extends Task {
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a");
 
-    public Deadline(String description, String by, boolean isDone) {
+    public Deadline(String description, LocalDateTime by, boolean isDone) {
         super(description, isDone);
-        this.by = LocalDateTime.parse(by, INPUT_FORMAT);
+        this.by = by;
     }
 
     public LocalDateTime getBy() {

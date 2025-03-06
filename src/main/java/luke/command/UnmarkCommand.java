@@ -3,7 +3,6 @@ package luke.command;
 import luke.Storage;
 import luke.TaskList;
 import luke.Ui;
-import luke.task.Task;
 
 public class UnmarkCommand extends Command {
     protected int index;

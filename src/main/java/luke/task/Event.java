@@ -11,10 +11,10 @@ public class Event extends Task {
     private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a");
 
 
-    public Event(String description, String from, String to, boolean isDone) {
+    public Event(String description, LocalDateTime from, LocalDateTime to, boolean isDone) {
         super(description, isDone);
-        this.from = LocalDateTime.parse(from, INPUT_FORMAT);
-        this.to = LocalDateTime.parse(to, INPUT_FORMAT);
+        this.from = from;
+        this.to = to;
     }
 
     public LocalDateTime getFrom() {
