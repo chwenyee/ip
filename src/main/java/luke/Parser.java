@@ -5,6 +5,7 @@ import luke.command.Command;
 import luke.command.DeleteCommand;
 import luke.command.ExitCommand;
 import luke.command.FindCommand;
+import luke.command.FindDateCommand;
 import luke.command.ListCommand;
 import luke.command.MarkCommand;
 import luke.command.UnmarkCommand;
@@ -25,41 +26,12 @@ public class Parser {
             return new ExitCommand();
         case "list":
             return new ListCommand();
-        case "mark":
-            if (parts.length < 2 || parts[1].isBlank()) {
-                throw new LukeException("Oops! You forget to specify a task number to mark.");
-            }
-            try {
-                int taskIndex = Integer.parseInt(parts[1]);
-                return new MarkCommand(taskIndex);
-            } catch (NumberFormatException e) {
-                throw new LukeException("Aiyo......The task number must be an integer.");
-            }
-        case "unmark":
-            if (parts.length < 2 || parts[1].isBlank()) {
-                throw new LukeException("Oops! You forget to specify a task number to unmark.");
-            }
-            try {
-                int taskIndex = Integer.parseInt(parts[1]);
-                return new UnmarkCommand(taskIndex);
-            } catch (NumberFormatException e) {
-                throw new LukeException("Aiyo......The task number must be an integer.");
-            }
-        case "delete":
-            if (parts.length < 2 || parts[1].isBlank()) {
-                throw new LukeException("Oops! You need to specify a task number to delete.");
-            }
-            try {
-                int taskIndex = Integer.parseInt(parts[1]);
-                return new DeleteCommand(taskIndex);
-            } catch (NumberFormatException e) {
-                throw new LukeException("Aiyo......The task number must be an integer.");
-            }
+        case "mark", "unmark", "delete":
+            return parseCommandWithIndex(parts, commandWord);
         case "find":
-            if (parts.length < 2 || parts[1].isBlank()) {
-                throw new LukeException("Whoops, do you notice that you are finding nothing?");
-            }
-            return new FindCommand(parts[1]);
+            return new FindCommand(parseFind(parts));
+        case "findDate":
+            return new FindDateCommand(parseFind(parts));
         case "todo":
             return new AddCommand(parseTodo(parts));
         case "deadline":
@@ -69,6 +41,35 @@ public class Parser {
         default:
             throw new LukeException("I'm sorry, but I don't know what that means :'(");
         }
+    }
+
+    private static Command parseCommandWithIndex(String[] parts, String commandType) throws LukeException {
+        if (parts.length < 2 || parts[1].isBlank()) {
+            throw new LukeException("Oops! You forget to specify a task number to mark.");
+        }
+        try {
+            // taskIndex = parsed integer -1 as array starts with 0
+            int taskIndex = Integer.parseInt(parts[1]) - 1;
+            switch (commandType) {
+            case "mark":
+                return new MarkCommand(taskIndex);
+            case "unmark":
+                return new UnmarkCommand(taskIndex);
+            case "delete":
+                return new DeleteCommand(taskIndex);
+            default:
+                throw new LukeException("Invalid command type: " + commandType);
+            }
+        } catch (NumberFormatException e) {
+            throw new LukeException("Aiyo......The task number must be an integer.");
+        }
+    }
+
+    private static String parseFind(String[] parts) throws LukeException {
+        if (parts.length < 2 || parts[1].isBlank()) {
+            throw new LukeException("Whoops, do you notice that you are finding nothing?");
+        }
+        return parts[1];
     }
 
     private static Todo parseTodo(String[] parts) throws LukeException {

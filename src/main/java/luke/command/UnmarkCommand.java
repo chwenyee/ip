@@ -6,8 +6,7 @@ import luke.Ui;
 import luke.task.Task;
 
 public class UnmarkCommand extends Command {
-
-    private int index;
+    protected int index;
 
     public UnmarkCommand(int index) {
         this.index = index;
@@ -16,8 +15,8 @@ public class UnmarkCommand extends Command {
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
         try {
-            tasks.unmarkTask(index - 1);
-            Ui.showMarkTaskAsNotDone(tasks.getTasks(), index - 1);
+            tasks.unmarkTask(index);
+            Ui.showMarkTaskAsNotDone(tasks.getTasks(), index);
             storage.save(tasks.getTasks());
         } catch (IndexOutOfBoundsException e) {
             ui.showError("Hmm... Why are you trying to unmark a non-existent task?");

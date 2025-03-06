@@ -1,8 +1,12 @@
 package luke;
 
+import luke.task.Deadline;
+import luke.task.Event;
 import luke.task.Task;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskList {
     private ArrayList<Task> tasks;
@@ -41,6 +45,22 @@ public class TaskList {
             // Check if the task's description contains the keyword. Case is ignored
             if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
                 matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
+    }
+
+    public ArrayList<Task> findTasksByDate(LocalDate date) {
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task instanceof Deadline) {
+                if (((Deadline) task).getBy().toLocalDate().equals(date)) {
+                    matchingTasks.add(task);
+                }
+            } else if (task instanceof Event) {
+                if (((Event) task).getFrom().toLocalDate().equals(date) || ((Event) task).getTo().toLocalDate().equals(date)) {
+                    matchingTasks.add(task);
+                }
             }
         }
         return matchingTasks;

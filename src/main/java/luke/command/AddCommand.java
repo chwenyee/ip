@@ -7,7 +7,7 @@ import luke.Ui;
 import luke.task.Task;
 
 public class AddCommand extends Command {
-    private Task task;
+    protected Task task;
 
     public AddCommand(Task task) {
         this.task = task;
