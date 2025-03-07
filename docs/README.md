@@ -1,5 +1,5 @@
 # Luke User Guide
-![Screenshot of the Luke application when it starts](https://drive.google.com/uc?id=18X2MIzYqA5fCTkFvHhKHtpHkt-V83FvT)
+![Screenshot of the Luke application when it starts](Luke.png)
 
 Luke is a chatbot and task manager designed to help users stay organized effortlessly.
 Using Luke, users can add, find, track and manage different types of tasks, such as to-dos,
