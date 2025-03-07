@@ -1,10 +1,10 @@
 # Luke User Guide
 ![Screenshot of the Luke application when it starts](https://drive.google.com/uc?id=18X2MIzYqA5fCTkFvHhKHtpHkt-V83FvT)
 
-Luke is a chatbot and task manager designed to help users stay organized effortlessly. 
-Using Luke, users can add, find, track and manage different types of tasks, such as to-dos, 
-deadlines, and events with ease. 
-It features a simple command-line interface and supports saving users' tasks automatically, so they will never 
+Luke is a chatbot and task manager designed to help users stay organized effortlessly.
+Using Luke, users can add, find, track and manage different types of tasks, such as to-dos,
+deadlines, and events with ease.
+It features a simple command-line interface and supports saving users' tasks automatically, so they will never
 lose track of what needs to be done.
 
 Ready to get started? Follow this guide to learn how to use Luke effectively.
@@ -12,12 +12,12 @@ Ready to get started? Follow this guide to learn how to use Luke effectively.
 ## Features
 > [!NOTE]
 > - Words in `UPPER_CASE` are the parameters to be supplied by the user. <br>
-    e.g. in `todo DESCRIPTION`, `DESCRIPTION` is a parameter which can be used as `todo do laundry`. 
+    e.g. in `todo DESCRIPTION`, `DESCRIPTION` is a parameter which can be used as `todo do laundry`.
 > - Every parameter must be supplied by the user. <br>
     e.g. if the command specifies `deadline DESCRIPTION /by DUE_DATE_TIME` , the user
     must fill in all parameters for the input to be valid.
 > - Parameters must be entered in the specified order. <br>
-    e.g. if the command specifies `DESCRIPTION /from START_DATE_TIME /to END_DATE_TIME`, the user 
+    e.g. if the command specifies `DESCRIPTION /from START_DATE_TIME /to END_DATE_TIME`, the user
     must follow this exact sequence for the input to be valid.
 > - Extraneous parameters for commands that do not take in parameters (such as `list` and `bye`) will be ignored. <br>
     e.g. if the command specifies `list 12345`, it will be interpreted as `list`.
@@ -175,7 +175,7 @@ Format: `findDate DATE`
 - `Todo` tasks are not included in the search as they do not have a date.
 - For `deadline` tasks, its `DUE_DATE_TIME` are checked.
 - For `event` tasks, both the `START_DATE_TIME` and `END_DATE_TIME` are checked.
-- Tasks with a matching date (`yyyy-MM-dd`) will be returned, regardless of the time (`HHmm`) in 
+- Tasks with a matching date (`yyyy-MM-dd`) will be returned, regardless of the time (`HHmm`) in
   `DUE_DATE_TIME`, `START_DATE_TIME`, or `END_DATE_TIME`.
 
 Example: `findDate 2025-03-07`
@@ -212,7 +212,7 @@ Luke data, i.e. tasks in the task list, are saved automatically as a text file
 Advanced users are welcome to update data directly by editing that data file.
 
 > [!CAUTION] <br>
-> If your changes to the data file makes its format invalid, Luke will skip that row, 
-> notify you and continue loading the next one. 
+> If your changes to the data file makes its format invalid, Luke will skip that row,
+> notify you and continue loading the next one.
 > Consequently, the task list will not include the invalid task. <br>
 > Therefore, only edit the data file if you are confident in making the correct updates.
