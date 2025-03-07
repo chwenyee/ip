@@ -127,7 +127,6 @@ public class Ui {
      *
      * @param matchingTasks The list of matching tasks.
      */
-
     public static void showTasksFound(ArrayList<Task> matchingTasks) {
         if (matchingTasks.isEmpty()) {
             System.out.println("It looks like there are no tasks with this keyword. Try a different one!");

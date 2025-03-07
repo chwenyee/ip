@@ -34,7 +34,7 @@ public class Luke {
     /**
      * Runs the Luke CLI program.
      * This method continuously reads user commands, processes them, and executes the corresponding actions.
-     * Luke terminates only when the user inputs 'bye'.
+     * Luke exits only when the user inputs 'bye'.
      */
     public void run() {
         ui.showGreetingMessage();
@@ -42,6 +42,7 @@ public class Luke {
         while (!isExit) {
             try {
                 String fullCommand = ui.readCommand();
+                // show the divider line ("-----")
                 Ui.showLine();
                 Command c = Parser.parse(fullCommand);
                 // Executes the command, displays messages, and updates the task file accordingly.

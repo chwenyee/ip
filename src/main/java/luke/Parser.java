@@ -59,20 +59,14 @@ public class Parser {
         }
     }
 
-    /**
-     * Parses commands that require a task index (e.g., mark, unmark, delete).
-     *
-     * @param parts The split user input.
-     * @param commandType The type of command (mark, unmark, or delete).
-     * @return The corresponding Command object.
-     * @throws LukeException If the input is invalid or does not contain a task index.
-     */
     private static Command parseCommandWithIndex(String[] parts, String commandType) throws LukeException {
         if (parts.length < 2 || parts[1].isBlank()) {
             throw new LukeException("Oops! You forget to specify a task number to mark.");
         }
         try {
-            // taskIndex = (parsed integer - 1) as array starts with 0
+            // Convert user-inputted task number (1-based) to array index (0-based).
+            // The task list shown to the user starts numbering from 1 (Ui.printTaskList method),
+            // but array indices start from 0, so subtract 1.
             int taskIndex = Integer.parseInt(parts[1]) - 1;
             switch (commandType) {
             case "mark":
