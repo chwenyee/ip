@@ -176,10 +176,10 @@ public class Parser {
                 return new Event(description, from, to, isDone);
             default:
                 // To handle cases such as having an unknown task type stored in txt file
-                throw new IllegalArgumentException("Unknown task type in storage.");
+                throw new LukeException("Unknown task type in storage.");
             }
         // Return null and let Storage.load to handle this error
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException | LukeException e) {
             return null;
         }
     }

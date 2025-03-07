@@ -36,7 +36,7 @@ public class Storage {
 
         try {
             File file = new File(filePath);
-            // Creates the parent directories if they do not exist.
+            // Creates the parent directory if it does not exist.
             file.getParentFile().mkdirs();
 
             // Overwrites the file instead of using append mode to prevent data duplication
