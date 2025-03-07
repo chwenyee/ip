@@ -211,7 +211,7 @@ Luke data, i.e. tasks in the task list, are saved automatically as a text file
 [your current directory in Command Prompt]/data/tasks.txt.
 Advanced users are welcome to update data directly by editing that data file.
 
-> [!CAUTION] <br>
+> [!CAUTION] 
 > If your changes to the data file makes its format invalid, Luke will skip that row,
 > notify you and continue loading the next one.
 > Consequently, the task list will not include the invalid task. <br>
