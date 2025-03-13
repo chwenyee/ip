@@ -1,6 +1,8 @@
 package luke;
 
 import luke.command.Command;
+import luke.exception.LukeException;
+
 import java.io.FileNotFoundException;
 
 /**

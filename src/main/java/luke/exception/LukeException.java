@@ -1,4 +1,4 @@
-package luke;
+package luke.exception;
 
 /**
  * Represents exceptions specific to the Luke application.

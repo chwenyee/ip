@@ -9,6 +9,7 @@ import luke.command.FindDateCommand;
 import luke.command.ListCommand;
 import luke.command.MarkCommand;
 import luke.command.UnmarkCommand;
+import luke.exception.LukeException;
 import luke.task.Deadline;
 import luke.task.Event;
 import luke.task.Task;
@@ -55,7 +56,18 @@ public class Parser {
         case "event":
             return new AddCommand(parseEvent(parts));
         default:
-            throw new LukeException("I'm sorry, but I don't know what that means :'(");
+            throw new LukeException("I'm sorry. I don't know what that means :'(" + System.lineSeparator() + System.lineSeparator()
+                    + "Here are the available commands you can use:" + System.lineSeparator()
+                    + "1. todo [description]" + System.lineSeparator()
+                    + "2. deadline [description] /by [due date]" + System.lineSeparator()
+                    + "3. event [description] /from [start] /to [end]" + System.lineSeparator()
+                    + "4. list" + System.lineSeparator()
+                    + "5. mark [task number]" + System.lineSeparator()
+                    + "6. unmark [task number]" + System.lineSeparator()
+                    + "7. delete [task number]" + System.lineSeparator()
+                    + "8. find [keyword in description]" + System.lineSeparator()
+                    + "9. findDate [date]" + System.lineSeparator()
+                    + "10. bye");
         }
     }
 

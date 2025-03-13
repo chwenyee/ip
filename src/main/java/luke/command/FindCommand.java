@@ -1,6 +1,5 @@
 package luke.command;
 
-import luke.LukeException;
 import luke.Storage;
 import luke.TaskList;
 import luke.Ui;
