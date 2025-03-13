@@ -212,7 +212,7 @@ Luke data, i.e. tasks in the task list, are saved automatically as a text file
 Advanced users are welcome to update data directly by editing that data file.
 
 > [!CAUTION] 
-> If your changes to the data file makes its format invalid, Luke will skip that row,
+> - If your changes to the data file makes its format invalid, Luke will skip that row,
 > notify you and continue loading the next one.
-> Consequently, the task list will not include the invalid task. <br>
-> Therefore, only edit the data file if you are confident in making the correct updates.
+> - Consequently, the task list will not include the invalid task.
+> - Therefore, only edit the data file if you are confident in making the correct updates.

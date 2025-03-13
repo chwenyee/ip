@@ -104,8 +104,8 @@ public class Parser {
     }
 
     private static Todo parseTodo(String[] parts) throws LukeException {
-        if (parts.length < 2) {
-            throw new LukeException("Whoops, the description of a todo is empty.");
+        if (parts.length < 2 || parts[1].isBlank()) {
+            throw new LukeException("Whoops, the description of this todo is empty.");
         }
         return new Todo(parts[1], false);
     }
@@ -125,6 +125,10 @@ public class Parser {
                     + "Please make sure to follow the format: deadline <description> /by yyyy-MM-dd HHmm");
         }
         String[] details = parts[1].split(" /by ", 2);
+        if (details[0].isBlank()) {
+            throw new LukeException("Whoops, the description of this deadline is empty.");
+        }
+
         try {
             LocalDateTime by = LocalDateTime.parse(details[1], INPUT_FORMAT);
             return new Deadline(details[0], by, false);
@@ -151,6 +155,10 @@ public class Parser {
         String[] details = parts[1].split(" /from ", 2);
         String description = details[0];
         String[] times = details[1].split(" /to ", 2);
+
+        if (description.isBlank()) {
+            throw new LukeException("Whoops, the description of this event is empty.");
+        }
 
         try {
             LocalDateTime from = LocalDateTime.parse(times[0], INPUT_FORMAT);
